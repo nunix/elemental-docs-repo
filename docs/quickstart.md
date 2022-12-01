@@ -43,6 +43,7 @@ The Elemental Stack consists of some packages on top of SLE Micro for Rancher
  - A machine (bare metal or virtualized) with TPM 2.0
      - Hint 1: Libvirt allows setting virtual TPMs for virtual machines [example here](https://rancher.github.io/elemental/tpm/#add-tpm-module-to-virtual-machine)
      - Hint 2: You can enable TPM emulation on bare metal machines missing the TPM 2.0 module [example here](https://rancher.github.io/elemental/tpm/#add-tpm-emulation-to-bare-metal-machine)
+     - Hint 3: Make sure you're using UEFI (not BIOS), or the ISO won't boot
  - Helm Package Manager (https://helm.sh/)
  - Docker (for iso manipulation)
 
@@ -54,7 +55,7 @@ cluster and taking care of creating inventories, registrations for machines and 
 We will use the Helm package manager to install the elemental-operator chart into our cluster
 
 ```shell showLineNumbers
-helm upgrade --create-namespace -n cattle-elemental-system --install elemental-operator oci://registry.opensuse.org/isv/rancher/elemental/stable/charts/elemental/elemental-operator
+helm upgrade --create-namespace -n cattle-elemental-system --install elemental-operator oci://registry.opensuse.org/isv/rancher/elemental/stable/charts/rancher/elemental-operator-chart
 ```
 
 There is a few options that can be set in the chart install but that is out of scope for this document. You can see all the values on the chart [values.yaml](https://github.com/rancher/elemental-operator/blob/main/chart/values.yaml)
@@ -151,7 +152,7 @@ This will download the proper yaml from the registration URL and store it on the
 First we need to obtain the `RegistrationURL` that was generated for our `MachineRegistration`
 
 ```bash showLineNumbers
-$ kubectl get machineregistration -n fleet-default my-test-registration -o jsonpath="{.status.registrationURL}"
+$ kubectl get machineregistration -n fleet-default my-nodes -o jsonpath="{.status.registrationURL}"
 https://172.18.0.2.sslip.io/elemental/registration/gsh4n8nj9gvbsjk4x7hxvnr5l6hmhbdbdffrmkwzrss2dtfbnpbmqp
 ```
 
