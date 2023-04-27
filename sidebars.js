@@ -49,6 +49,7 @@ const sidebars = {
         "machineregistration-reference",
         "machineinventoryselectortemplate-reference",
         "cluster-reference",
+        "seedimage-reference",
         "elementaloperatorchart-reference",
         "kubernetesversions",
         "smbios",
@@ -81,6 +82,7 @@ const sidebars = {
       label: 'How to',
       items: [
         'wifi',
+        'elemental_behind_proxy',
         'rancher-vmware'
       ]
     },
@@ -94,11 +96,21 @@ const sidebars = {
           "type": "category",
           "collapsible": true,
           "collapsed": false,
+          "label": "Rancher",
+          "items": [
+            "troubleshooting-rancher-upgrades",
+          ]
+        },
+        {
+          "type": "category",
+          "collapsible": true,
+          "collapsed": false,
           "label": "Restore",
           "items": [
             "troubleshooting-restore",
           ]
-        }
+        },
+
       ]
     },
   ],
