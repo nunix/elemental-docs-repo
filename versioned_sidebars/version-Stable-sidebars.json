@@ -68,7 +68,8 @@
       "items": [
         "wifi",
         "elemental_behind_proxy",
-        "rancher-vmware"
+        "rancher-vmware",
+        "removable-device-cloudconfig"
       ]
     },
     {
@@ -93,6 +94,15 @@
           "label": "Restore",
           "items": [
             "troubleshooting-restore"
+          ]
+        },
+        {
+          "type": "category",
+          "collapsible": true,
+          "collapsed": false,
+          "label": "Upgrade",
+          "items": [
+            "troubleshooting-upgrade"
           ]
         }
       ]
