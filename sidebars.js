@@ -63,6 +63,7 @@ const sidebars = {
       "label": "Operator",
       "items": [
         "inventory-management",
+        "reset",
       ]
     },
     {
@@ -84,7 +85,8 @@ const sidebars = {
         'wifi',
         'elemental_behind_proxy',
         'rancher-vmware',
-        'removable-device-cloudconfig'
+        'removable-device-cloudconfig',
+        'custom-certificate'
       ]
     },
     {
@@ -120,6 +122,15 @@ const sidebars = {
             "troubleshooting-upgrade"
           ]
         },
+        {
+          "type": "category",
+          "collapsible": true,
+          "collapsed": true,
+          "label": "Reset",
+          "items": [
+            "troubleshooting-reset"
+          ]
+        }
       ],
     },
     "release-notes",

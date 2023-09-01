@@ -274,9 +274,10 @@ RUN rpm --import <repo-signing-key-url> && \
 # values here should reflect the tag of the image currently being built
 ARG IMAGE_REPO=norepo
 ARG IMAGE_TAG=latest
-RUN echo "IMAGE_REPO=${IMAGE_REPO}"          > /etc/os-release && \
-    echo "IMAGE_TAG=${IMAGE_TAG}"           >> /etc/os-release && \
-    echo "IMAGE=${IMAGE_REPO}:${IMAGE_TAG}" >> /etc/os-release
+RUN \
+    sed -i -e "s/^IMAGE_REPO=.*/IMAGE_REPO=\"${IMAGE_REPO}\"/g" /etc/os-release && \
+    sed -i -e "s/^IMAGE_TAG=.*/IMAGE_TAG=\"${IMAGE_TAG}\"/g" /etc/os-release && \
+    sed -i -e "s/^IMAGE=.*/IMAGE=\"${IMAGE_REPO}:${IMAGE_TAG}\"/g" /etc/os-release
 ```
 
 Where `latest` is the base version we want to customize.
@@ -313,6 +314,9 @@ ARG TARGETARCH
 WORKDIR /iso
 COPY --from=os / rootfs
 
+# work around buildah issue: https://github.com/containers/buildah/issues/4242
+RUN rm rootfs/etc/resolv.conf
+
 RUN --mount=type=bind,source=./,target=/output,rw \
       elemental build-iso \
         dir:rootfs \
@@ -322,7 +326,7 @@ RUN --mount=type=bind,source=./,target=/output,rw \
 ```
 
 
-Modify the container image template and afterward run:
+Modify the container image template and afterwards run:
 
 ```bash showLineNumbers
 buildah build --tag myrepo/custom-build:v1.1.1 \
@@ -331,4 +335,8 @@ buildah build --tag myrepo/custom-build:v1.1.1 \
               .
 ```
 
-The new customized installation media can be found in `elemental-teal-amd64.iso` and can be used to boot and provision the machine.
+The new customized installation media can be found in `elemental-teal-amd64.iso`.
+
+:::caution important
+You still need to [prepare the installation image](quickstart-cli#preparing-the-installation-seed-image) so it can be used to boot and provision the machine.
+:::
