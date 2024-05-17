@@ -22,7 +22,7 @@ This quickstart will show you how to deploy the Elemental plugin and operator in
 
 Once installed, you'll be able to provision a new Elemental cluster based on RKE2 or K3s.
 
-However, if you want to install staging or dev operator, you can only do it in [CLI mode](http://elemental.docs.rancher.com/next/quickstart-cli#non-stable-installations).
+However, if you want to install staging or dev operator, you can only do it in [CLI mode](quickstart-cli#non-stable-installations).
 
 ## Enable the Rancher Manager Extensions Support
 
@@ -106,15 +106,9 @@ Now here either you can enter each detail in its respective places or you can ed
 :::info main options
 `name: elemental-cluster1`: change this as per your need
 
-`device: /dev/sda`: make sure your target device is "sda". Otherwise find out how the disk device is named and change it here. For example, in Raspberry Pi it could be "mmblk"
+`device-selector`: The [device-selector](machineregistration-reference#configelementalinstalldevice-selector) field can be used to dynamically pick device during installation. The field contains a list of rules to select the device you want.
 
-`emulate-tpm: true`: use this only if your target device doesn't have a TPM device and you have a way of emulating TPM like in VMware or KVM
-
-`emulated-tpm-seed: 1`: increase this by 1 for every new machine. If this value is not set, each machine will receive the same TPM hash and it won't show up under the machine inventory.
-:::
-
-:::danger attention
-Emulated TPM is only for non-production usage like for testing as it beats the purpose of security. So in production usage use the code above without the `emulate-tpm` and `emulate-tpm-seed`
+`snapshotter`: Type of device used to manage snapshots in OS images.
 :::
 
 Once you create the machine registration end point it should show up as active.
@@ -123,29 +117,33 @@ Once you create the machine registration end point it should show up as active.
 
 ## Preparing the installation (seed) image
 
-Now this is the last step, you need to prepare an Elemental Teal seed image that includes the initial registration config, so
-it can be auto registered, installed and fully deployed as part of your cluster. The contents of the file are nothing 
+Now this is the last step, you need to prepare a seed image that includes the initial registration config, so
+it can be auto registered, installed and fully deployed as part of your cluster. The contents of the file are nothing
 more than the registration URL that the node needs to register and the proper server certificate, so it can connect securely.
 
 This seed image can then be used to provision an infinite number of machines.
 
-The seed image is created as a Kubernetes resource above and can be built using the `Build ISO` button:
+The seed image is created as a Kubernetes resource above and can be built using the `Build Media` button, but first, you have to select ISO or RAW image.
 
-![Build ISO in Registration Endpoints](images/quickstart-ui-registration-endpoint-build-ISO.png)
+In opposite to ISO where it needs two devices (device with ISO and another disk where to install Elemental), RAW image allows to boot from a single device and directly install the operating system in the device.
+RAW image only contains a boot and a recovery partition and it boots first into recovery mode to install Elemental (for information, the process is similar to the [reset](reset#reset-workflow) one).
 
-Once the build is done, ISO can be downloaded using the `Download ISO` button:
 
-![Download ISO in Registration Endpoints](images/quickstart-ui-registration-endpoint-download-ISO.png)
+![Build Media in Registration Endpoints](images/quickstart-ui-registration-endpoint-build-media.png)
+
+Once the build is done, media can be downloaded using the `Download Media` button:
+
+![Download Media in Registration Endpoints](images/quickstart-ui-registration-endpoint-download-media.png)
 
 You can now boot your nodes with this image and they will:
 
 - Register with the registrationURL given and create a per-machine `MachineInventory`
-- Install Elemental Teal to the given device
+- Install SLE Micro to the given device
 - Reboot
 
 ## Machine Inventory
 
-When nodes are booting up for the first time, they connect to Rancher Manager and a [`Machine Inventory`](https://elemental.docs.rancher.com/architecture#machineinventory) is created for each node.
+When nodes are booting up for the first time, they connect to Rancher Manager and a [`Machine Inventory`](architecture#machineinventory) is created for each node.
 
 ![Machine Inventory menu](images/quickstart-ui-machine-inventory-menu.png)
 
@@ -153,7 +151,7 @@ Custom columns are based on `Machine Inventory Labels` which you can add when yo
 
 ![Machine Registration Endpoint Hardware Labels](images/quickstart-ui-registration-endpoint-hardware-labels.png)
 
-On the following screenshot, [`Hardware Labels`](https://elemental.docs.rancher.com/hardwarelabels/#hardware-labels) are used as custom columns:
+On the following screenshot, [`Hardware Labels`](hardwarelabels#hardware-labels) are used as custom columns:
 
 You can also add custom columns by clicking on the three dots menu.
 

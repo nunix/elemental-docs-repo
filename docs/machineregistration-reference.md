@@ -53,10 +53,11 @@ Supports the following values:
 :::warning
 The following values are for development purposes only.
 
-| Key               | Type   | Default value | Description                                                                                                  |
-|-------------------|--------|---------------|--------------------------------------------------------------------------------------------------------------|
-| emulate-tpm       | bool   | false         | This will use software emulation of the TPM (required for hosts without TPM hardware)                        |
-| emulated-tpm-seed | int64  | 1             | Fixed seed to use with 'emulate-tpm'. Set to -1 to get a random seed. See [TPM](tpm.md) for more information |
+| Key               | Type   | Default value | Description                                                                                                                                       |
+|-------------------|--------|---------------|---------------------------------------------------------------------------------------------------------------------------------------------------|
+| auth              | string | tpm           | Authentication method to use during registration, one of `tpm`, `mac` or `sys-uuid`. See [Authentication](authentication.md) for more information |
+| emulate-tpm       | bool   | false         | This will use software emulation of the TPM (required for hosts without TPM hardware)                                                             |
+| emulated-tpm-seed | int64  | 1             | Fixed seed to use with 'emulate-tpm'. Set to -1 to get a random seed. See [TPM](tpm.md) for more information                                      |
 
 :::
 
@@ -80,6 +81,7 @@ Supports the following values:
 | tty             | string | empty         | Add named tty to grub                                                                                                                      |
 | poweroff        | bool   | false         | Shutdown the system after install                                                                                                          |
 | reboot          | bool   | false         | Reboot the system after install                                                                                                            |
+| snapshotter     | string | loopdevice    | Type of device used to manage snapshots in OS images ('loopdevice' or 'btrfs').                                                            |
 | eject-cd        | bool   | false         | Try to eject the cd on reboot                                                                                                              |
 
 :::warning warning
@@ -107,7 +109,7 @@ If both `device` and `device-selector` is specified the value of `device` is use
           debug: true
           reboot: true
           eject-cd: true
-          system-uri: registry.suse.com/rancher/elemental-teal/5.4:latest
+          system-uri: registry.suse.com/rancher/sle-micro/5.5:latest
   ```
 </details>
 
@@ -196,7 +198,7 @@ Supports the following values:
           reset-persistent: true
           reset-oem: true
           reboot: true
-          system-uri: registry.opensuse.org/isv/rancher/elemental/stable/teal53/15.4/rancher/elemental-teal/5.3:latest
+          system-uri: registry.suse.com/rancher/sle-micro/5.5:latest
   ```
 </details>
 
@@ -232,7 +234,7 @@ The UUID will be retrieved from the SMBIOS data if available, otherwise a random
 Labels that will be set to the `MachineInventory` that is created from this `MachineRegistration`
 `Key: value` type. These labels will be used to establish a selection criteria in [MachineInventorySelectorTemplate](machineinventoryselectortemplate-reference.md).  
 
-Elemental Teal nodes will run `elemental-register` every 24 hours.  
+Elemental nodes will run `elemental-register` every 24 hours.  
 It is possible to update the `machineInventoryLabels` so that all registered nodes will apply the new labels on the next successfull registration update.  
 
 :::info

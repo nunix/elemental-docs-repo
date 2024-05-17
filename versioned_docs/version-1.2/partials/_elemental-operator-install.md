@@ -32,7 +32,7 @@ You will need to upgrade the elemental-operator chart first, and only then insta
 Besides the Helm charts listed above, there are two other `non-stable`
 versions available.
 
-* **Staging:** refers to the latest tagged release from Github. This is documented in the [Next](next/quickstart-ui) pages.
+* **Staging:** refers to the latest tagged release from Github. This is documented in the [Next](/next/quickstart-ui) pages.
 
 * **Development:** refers to the 'tip of HEAD' from Github. This is the ongoing development version and changes constantly.
 
@@ -61,4 +61,4 @@ helm upgrade --create-namespace -n cattle-elemental-system --install --set image
 
 ### Installation options
 
-There are a few options that can be set in the chart install but that is out of scope for this document. You can see all the values on the chart [values.yaml](https://github.com/rancher/elemental-operator/blob/main/charts/operator/values.yaml).
+There are a few options that can be set in the chart install but that is out of scope for this document. You can see all the values on the chart [values.yaml](https://github.com/rancher/elemental-operator/blob/main/.obs/chartfile/operator/values.yaml).

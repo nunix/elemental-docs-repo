@@ -20,6 +20,7 @@
       "items": [
         "installation",
         "upgrade",
+        "upgrade-lifecycle",
         "customizing",
         "elemental-plans"
       ]
@@ -33,6 +34,9 @@
         "cloud-config-reference",
         "machineregistration-reference",
         "machineinventoryselectortemplate-reference",
+        "managedosimage-reference",
+        "managedosversionchannel-reference",
+        "managedosversion-reference",
         "cluster-reference",
         "seedimage-reference",
         "elementaloperatorchart-reference",

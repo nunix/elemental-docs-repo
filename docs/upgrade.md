@@ -10,6 +10,7 @@ title: ''
 import ClusterTarget from "!!raw-loader!@site/examples/upgrade/upgrade-cluster-target.yaml"
 import NodeSelector from "!!raw-loader!@site/examples/upgrade/upgrade-node-selector.yaml"
 import UpgradeForce from "!!raw-loader!@site/examples/upgrade/upgrade-force.yaml"
+import UpgradeRecovery from "!!raw-loader!@site/examples/upgrade/upgrade-recovery.yaml"
 import ManagedOSVersion from "!!raw-loader!@site/examples/upgrade/upgrade-managedos-version.yaml"
 import MangedOSVersionChannelJson from "!!raw-loader!@site/examples/upgrade/managed-os-version-channel-json.yaml"
 import ManagedOSVersionChannelCustom from "!!raw-loader!@site/examples/upgrade/managed-os-version-channel-custom.yaml"
@@ -20,9 +21,9 @@ import Versions from "../examples/upgrade/versions.raw!=!raw-loader!@site/exampl
 All components in Elemental are managed using Kubernetes. Below is how
 to use Kubernetes approaches to upgrade the components.
 
-## Elemental Teal node upgrade
+## Elemental node upgrade
 
-Elemental Teal is upgraded with the <Vars name="elemental_operator_name" />. Refer to the
+Elemental nodes are upgraded with the <Vars name="elemental_operator_name" />. Refer to the
 [<Vars name="elemental_operator_name" />](elementaloperatorchart-reference.md) documentation for complete information.
 
 Upgrade can be achieve either with CLI or UI:
@@ -33,7 +34,9 @@ Upgrade can be achieve either with CLI or UI:
 
 There are two ways of selecting nodes for upgrading. Via a cluster target, which will match ALL nodes in a cluster that matches our
 selector or via node selector, which will match nodes based on the node labels. Node selector allows us to be more targeted with the upgrade
-while cluster selector just selects all the nodes in a matched cluster.
+while cluster selector just selects all the nodes in a matched cluster.  
+
+Updating an existing `ManagedOSImage` will trigger a new upgrade cycle, to reconcile the configured image (or image version) to all targeted nodes.  
 
 <Tabs>
 <TabItem value="clusterTarget" label="With 'clusterTarget'" default>
@@ -58,10 +61,16 @@ It is possible to force upgrades to older versions by setting the FORCE environm
 <CodeBlock language="yaml" title="upgrade-force.yaml" showLineNumbers>{UpgradeForce}</CodeBlock>
 
 </TabItem>
+
+<TabItem value="recoveryUpgrade" label="With UPGRADE_RECOVERY flag">
+You can decide upgrade the Recovery partition when upgrading the system, or alternatively to upgrade the Recovery partition only.
+
+<CodeBlock language="yaml" title="upgrade-recovery.yaml" showLineNumbers>{UpgradeRecovery}</CodeBlock>
+
+</TabItem>
 </Tabs>
 
-
-### Selecting source for upgrade
+### Selecting source for upgrade 
 
 <Tabs>
 <TabItem value="osImage" label="Via 'osImage'">
@@ -110,8 +119,8 @@ The generated data is then automounted by the syncer and then parsed so it can g
 The only requirement to make your own custom syncer is to make it output a json file to `/data/output` and keep the correct json structure.
 :::
 
-Elemental project provides an Elemental Teal channel to list all `ManagedOSVersions` released as a custom syncer.
-See the Elemental Teal channel resource definition below:
+Elemental project provides a channel to list all `ManagedOSVersions` released as a custom syncer.
+See the channel resource definition below:
 
 <CodeBlock language="yaml" title="managed-os-version-channel-json.yaml" showLineNumbers>{ManagedOSVersionChannelCustom}</CodeBlock>
 

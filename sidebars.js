@@ -35,10 +35,12 @@ const sidebars = {
       "items": [
         "installation",
         "upgrade",
-        "customizing",
+        "upgrade-lifecycle",
+        "custom-install",
         "elemental-plans",
       ]
     },
+    "authentication",
     {
       "type": "category",
       "collapsible": true,
@@ -48,6 +50,9 @@ const sidebars = {
         "cloud-config-reference",
         "machineregistration-reference",
         "machineinventoryselectortemplate-reference",
+        "managedosimage-reference",
+        "managedosversionchannel-reference",
+        "managedosversion-reference",
         "cluster-reference",
         "seedimage-reference",
         "elementaloperatorchart-reference",
@@ -77,61 +82,64 @@ const sidebars = {
       ]
     },
     {
-      type: 'category',
-      collapsible: true,
-      collapsed: true,
-      label: 'How to',
-      items: [
-        'wifi',
-        'elemental_behind_proxy',
-        'hostname',
-        'rancher-vmware',
-        'removable-device-cloudconfig',
-        'custom-certificate',
-        'airgap'
+      "type": "category",
+      "collapsible": true,
+      "collapsed": true,
+      "label": "How to",
+      "items": [
+        "custom-images",
+        "elemental_behind_proxy",
+        "hostname",
+        {
+          "type": "category",
+          "collapsible": true,
+          "collapsed": true,
+          "label": "Customize networking",
+          "link": {"type": "doc", "id": "networking"},
+          "items": [
+            "networking-vlans",
+            "wifi"
+          ]
+        },
+        "ntp",
+        "rancher-vmware",
+        "removable-device-cloudconfig",
+        "custom-certificate",
+        "airgap",
+        "raspi-disk",
+        "tpm"
       ]
     },
     {
-      type: 'category',
-      collapsible: true,
-      collapsed: true,
-      label: 'Troubleshooting',
-      items: [
+      "type": "category",
+      "collapsible": true,
+      "collapsed": true,
+      "label": 'Troubleshooting',
+      "items": [
         {
-          "type": "category",
-          "collapsible": true,
-          "collapsed": true,
+          "type": "doc",
+          "label": "Support",
+          "id": "troubleshooting-support",
+        },
+        {
+          "type": "doc",
           "label": "Rancher",
-          "items": [
-            "troubleshooting-rancher-upgrades",
-          ]
+          "id": "troubleshooting-rancher-upgrades",
         },
         {
-          "type": "category",
-          "collapsible": true,
-          "collapsed": true,
+          "type": "doc",
           "label": "Restore",
-          "items": [
-            "troubleshooting-restore",
-          ]
+          "id": "troubleshooting-restore",
         },
         {
-          "type": "category",
-          "collapsible": true,
-          "collapsed": true,
+          "type": "doc",
           "label": "Upgrade",
-          "items": [
-            "troubleshooting-upgrade"
-          ]
+          "id": "troubleshooting-upgrade",
         },
         {
-          "type": "category",
-          "collapsible": true,
-          "collapsed": true,
+          "type": "doc",
           "label": "Reset",
-          "items": [
-            "troubleshooting-reset"
-          ]
+          "id": "troubleshooting-reset",
         }
       ],
     },

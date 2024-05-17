@@ -1,0 +1,131 @@
+{
+  "docs": [
+    "index",
+    {
+      "type": "category",
+      "collapsible": true,
+      "collapsed": false,
+      "label": "Quickstarts",
+      "items": [
+        "quickstart-ui",
+        "quickstart-cli"
+      ]
+    },
+    "architecture",
+    {
+      "type": "category",
+      "collapsible": true,
+      "collapsed": true,
+      "label": "Install/Upgrade",
+      "items": [
+        "installation",
+        "upgrade",
+        "upgrade-lifecycle",
+        "customizing",
+        "elemental-plans"
+      ]
+    },
+    "authentication",
+    {
+      "type": "category",
+      "collapsible": true,
+      "collapsed": true,
+      "label": "Reference",
+      "items": [
+        "cloud-config-reference",
+        "machineregistration-reference",
+        "machineinventoryselectortemplate-reference",
+        "managedosimage-reference",
+        "managedosversionchannel-reference",
+        "managedosversion-reference",
+        "cluster-reference",
+        "seedimage-reference",
+        "elementaloperatorchart-reference",
+        "kubernetesversions",
+        "smbios",
+        "hardwarelabels"
+      ]
+    },
+    {
+      "type": "category",
+      "collapsible": true,
+      "collapsed": true,
+      "label": "Operator",
+      "items": [
+        "inventory-management",
+        "reset"
+      ]
+    },
+    {
+      "type": "category",
+      "collapsible": true,
+      "collapsed": true,
+      "label": "Backup",
+      "items": [
+        "backup",
+        "restore"
+      ]
+    },
+    {
+      "type": "category",
+      "collapsible": true,
+      "collapsed": true,
+      "label": "How to",
+      "items": [
+        "elemental_behind_proxy",
+        "hostname",
+        {
+          "type": "category",
+          "collapsible": true,
+          "collapsed": true,
+          "label": "Customize networking",
+          "link": {"type": "doc", "id": "networking"},
+          "items": [
+            "networking-vlans",
+            "wifi"
+          ]
+        },
+        "ntp",
+        "rancher-vmware",
+        "removable-device-cloudconfig",
+        "custom-certificate",
+        "airgap",
+        "tpm"
+      ]
+    },
+    {
+      "type": "category",
+      "collapsible": true,
+      "collapsed": true,
+      "label": "Troubleshooting",
+      "items": [
+        {
+          "type": "doc",
+          "label": "Support",
+          "id": "troubleshooting-support"
+        },
+        {
+          "type": "doc",
+          "label": "Rancher",
+          "id": "troubleshooting-rancher-upgrades"
+        },
+        {
+          "type": "doc",
+          "label": "Restore",
+          "id": "troubleshooting-restore"
+        },
+        {
+          "type": "doc",
+          "label": "Upgrade",
+          "id": "troubleshooting-upgrade"
+        },
+        {
+          "type": "doc",
+          "label": "Reset",
+          "id": "troubleshooting-reset"
+        }
+      ]
+    },
+    "release-notes"
+  ]
+}
