@@ -1,9 +1,10 @@
 apiVersion: elemental.cattle.io/v1beta1
 kind: MachineRegistration
 metadata:
-  name: fire-nodes-mac
+  name: fire-nodes
   namespace: fleet-default
 spec:
+  machineName: "fire-node-${Random/Hex/12}"
   config:
     cloud-config:
       users:
@@ -14,11 +15,5 @@ spec:
         reboot: true
         device: /dev/sda
         debug: true
-      registration:
-        auth: mac
   machineInventoryLabels:
-    element: fire
-    manufacturer: "${Product/Vendor}"
-    productName: "${Product/Name}"
-    serialNumber: "${Product/Serial Number}"
-    machineUUID: "${Product/UUID}"
+    elemental.cattle.io/UUID: "${Random/UUID}"

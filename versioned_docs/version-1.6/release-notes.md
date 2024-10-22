@@ -17,9 +17,9 @@ Here's the different components, their latest version and a link to the respecti
 
 | Name                                                                 | Version | Release Notes                                                                |
 |----------------------------------------------------------------------|---------|------------------------------------------------------------------------------|
-| [Elemental Operator](https://github.com/rancher/elemental-operator/) | v1.6.3  | [Link](https://github.com/rancher/elemental-operator/releases/tag/v1.6.3)    |
+| [Elemental Operator](https://github.com/rancher/elemental-operator/) | v1.6.4  | [Link](https://github.com/rancher/elemental-operator/releases/tag/v1.6.4)    |
 | [Elemental Toolkit](https://github.com/rancher/elemental-toolkit/)   | v2.1.1  | [Link](https://github.com/rancher/elemental-toolkit/releases/tag/v2.1.1)     |
-| [Elemental Linux](https://github.com/rancher/elemental)              | v2.1.1  | [Link](https://github.com/rancher/elemental/releases/tag/v2.1.1)             |
+| [Elemental Linux](https://github.com/rancher/elemental)              | v2.1.2  | [Link](https://github.com/rancher/elemental/releases/tag/v2.1.2)             |
 | [Elemental UI](https://github.com/rancher/elemental-ui)              | v1.3.1  | [Link](https://github.com/rancher/elemental-ui/releases/tag/elemental-1.3.1) |
 
 :::note Information on docs versioning
@@ -27,3 +27,40 @@ Here's the different components, their latest version and a link to the respecti
 The docs versioning is based on the `Elemental Operator` component as it's the user "entrypoint" to the Elemental project stack.
 
 :::
+
+## Known issues
+
+### Predictable Network Interface Names
+
+The SLE Micro OS images with versions v2.1.1 and v2.1.2 (released in the default
+[ManagedOSVersionChannel](managedosversionchannel-reference))
+adopt predictable network interface names by default.
+
+This is a change from SLE Micro OS images previously released, so you should expect your
+Elemental hosts to switch the network interface names from the `ethX` template to the `enpXsY` one.
+
+You can disable the predictable network interface names by passing the `net.ifnames=0` argument
+to the kernel command line. To make it permanent:
+
+```sh
+grub2-editenv /oem/grubenv set extra_cmdline=net.ifnames=0
+```
+
+:::warning
+The adoption of the predictable network interface names feature was not a planned one:
+it will be reverted in the next SLE Micro OS images starting from version v2.1.3.
+These OS images will include the `net.ifnames=0` kernel command line argument by default.  
+The v2.1.3 OS images will be released via the default Elemental 1.6 channel.
+:::
+
+### SSH root access
+
+The SLE Micro OS images released in the current Elemental version (throught the default
+[ManagedOSVersionChannel](managedosversionchannel-reference)) do not allow ssh root access
+via password anymore. Easyest workaround is to either configure ssh root access via an ssh
+key or add a new user to the system.
+
+### Kernel Panic on hypervisors
+
+OS Images based on SL Micro 6.0 can fail to boot with a kernel panic on virtual machines using an unsupported CPU type.  
+The `x86-64-v2` instruction set is required. For best compatibility CPU host passthrough is recommended.

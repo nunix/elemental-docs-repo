@@ -49,6 +49,20 @@ spec:
 Contains the cloud-configuration to be injected in the node.  
 Both yip and cloud-init syntax are supported. See the [Cloud Config Reference](cloud-config-reference.md) for full information.
 
+The cloud-configuration provided in this field is not evaluated during the installation, it is
+just added to the node so it gets evaluated on reboot.
+
+#### config.network
+
+Contains the Declarative Networking configuration, supporting integration with [CAPI IPAM Providers](https://github.com/kubernetes-sigs/cluster-api/blob/main/docs/proposals/20220125-ipam-integration.md#ipam-provider).  
+See the [Declarative Networking Reference](networking.md) for full information.  
+
+| Key               | Type      | Default value | Description                                                                                                   |
+|-------------------|-----------|---------------|---------------------------------------------------------------------------------------------------------------|
+| configurator      | string    | nmc           | The network configurator type to use (`nmc`, `nmstate`, or `nmconnections`)                                   |
+| ipAddresses       | objRefMap | empty         | A map of `IPPool` references. Map keys can be used for IPAddress substitution in the network config template. |
+| config            | obj       | empty         | The network config template. Syntax varies depending on the `configurator` in use.                            |
+
 #### config.elemental.registration
 Contains the configuration used for the connection and the initial registration to the <Vars name="elemental_operator_name" />.
 
@@ -92,7 +106,7 @@ Supports the following values:
 | tty             | string | empty         | Add named tty to grub                                                                                                                      |
 | poweroff        | bool   | false         | Shutdown the system after install                                                                                                          |
 | reboot          | bool   | false         | Reboot the system after install                                                                                                            |
-| snapshotter     | string | loopdevice    | Type of device used to manage snapshots in OS images ('loopdevice' or 'btrfs').                                                            |
+| snapshotter     | obj    | empty         | Snapshotter configuration. See [reference](#configelementalinstallsnapshotter)                                                             |
 | eject-cd        | bool   | false         | Try to eject the cd on reboot                                                                                                              |
 
 :::warning warning
@@ -174,6 +188,17 @@ The currently supported keys are:
 
 The rules are AND:ed together, which means all rules must match the targeted device.
 
+#### config.elemental.install.snapshotter
+
+You can configure how Elemental manages snapshots on the installed machine.  
+New snapshots are created for example when [upgrading](./upgrade) the machine with a new OS image.  
+The `loopdevice` snapshotter will unpack new images on a `ext4` filesystem, while the `btrfs` snapshotter will make use of the underlying [btrfs snapshots](https://archive.kernel.org/oldwiki/btrfs.wiki.kernel.org/index.php/SysadminGuide.html#Snapshots) functionality, greatly reducing the amount of disk space needed to store multiple snapshots.  
+
+| Key      | Type   | Default value | Description                                                                     |
+|----------|--------|---------------|---------------------------------------------------------------------------------|
+| type     | string | loopdevice    | Type of device used to manage snapshots in OS images ('loopdevice' or 'btrfs'). |
+| maxSnaps | int    | 2             | Maximum amount of snapshots to keep.                                            |
+
 #### config.elemental.reset
 
 Contains the reset configuration that would be applied via `elemental-register --reset`, when booted from the recovery partition and passed to [`elemental reset`](https://github.com/rancher/elemental-toolkit/blob/main/docs/elemental_reset.md)
@@ -215,14 +240,14 @@ Supports the following values:
 
 #### machineName
 
-This refers to the name that will be set to the node and the kubernetes resources that require a hostname (rke2 deployed pods for example, they use the node hostname as part of the pod names)
-`String` type.
+Template used to derive the hostname to be set to the node and as the name of the associated [MachineInventory](machineinventory-reference.md) kubernetes resource.
+
+The value is interpolated using [Label Templates](label-templates.md).
 
 :::info
-When `elemental:registration:no-smbios` is set to `false` (default), machineName is interpolated with [SMBIOS](https://www.dmtf.org/standards/smbios) data which allows you to store hardware information.
-See our [SMBIOS docs](smbios.md) for more information.
 If no `machineName` is specified, a default one in the form `m-$UUID` will be set.
-The UUID will be retrieved from the SMBIOS data if available, otherwise a random UUID will be generated.
+
+See the [Customize Hostname section](hostname.md#customize-hostname) for further details.
 :::
 
 <details>
@@ -242,16 +267,15 @@ The UUID will be retrieved from the SMBIOS data if available, otherwise a random
 
 #### machineInventoryLabels
 
-Labels that will be set to the `MachineInventory` that is created from this `MachineRegistration`
-`Key: value` type. These labels will be used to establish a selection criteria in [MachineInventorySelectorTemplate](machineinventoryselectortemplate-reference.md).  
+Labels to be set to the `MachineInventory` created from this `MachineRegistration`.
 
-Elemental nodes will run `elemental-register` every 24 hours.  
-It is possible to update the `machineInventoryLabels` so that all registered nodes will apply the new labels on the next successfull registration update.  
+The label values are interpolated using [Label Templates](label-templates.md).
 
-:::info
-When `elemental:registration:no-smbios` is set to `false` (default), Labels are interpolated with [SMBIOS](https://www.dmtf.org/standards/smbios) data. This allows to store hardware information in custom labels.
-See our [SMBIOS docs](smbios.md) for more information.
-:::
+These labels could be used to establish a selection criteria in [MachineInventorySelectorTemplate](machineinventoryselectortemplate-reference.md).
+
+Elemental nodes will run `elemental-register` every 30 minutes.
+
+It is possible to update the `machineInventoryLabels` so that all registered nodes apply the new labels on the next successfull registration update.
 
 <details>
 <summary>Example</summary>

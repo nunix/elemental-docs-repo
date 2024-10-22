@@ -66,6 +66,37 @@ const sidebars = {
       "type": "category",
       "collapsible": true,
       "collapsed": true,
+      "label": "Label Templates",
+      "link": {"type": "doc", "id": "label-templates"},
+      "items": [
+        "label-templates-baseboard",
+        "label-templates-bios",
+        "label-templates-chassis",
+        "label-templates-cpu",
+        "label-templates-gpu",
+        "label-templates-memory",
+        "label-templates-network",
+        "label-templates-product",
+        "label-templates-random",
+        "label-templates-runtime",
+        "label-templates-storage",
+        "label-templates-deprecated",
+      ]
+    },
+    {
+      "type": "category",
+      "collapsible": true,
+      "collapsed": true,
+      "label": "Declarative Networking",
+      "items": [
+        "networking",
+        "networking-static",
+      ]
+    },
+    {
+      "type": "category",
+      "collapsible": true,
+      "collapsed": true,
       "label": "Reference",
       "items": [
         "cloud-config-reference",
@@ -80,8 +111,6 @@ const sidebars = {
         "cluster-reference",
         "elementaloperatorchart-reference",
         "kubernetesversions",
-        "smbios",
-        "hardwarelabels",
       ]
     },
     {
@@ -93,6 +122,7 @@ const sidebars = {
         "inventory-management",
         "reset",
         "channels",
+        "certificate-authority",
       ]
     },
     {
@@ -114,17 +144,6 @@ const sidebars = {
         "custom-images",
         "elemental_behind_proxy",
         "hostname",
-        {
-          "type": "category",
-          "collapsible": true,
-          "collapsed": true,
-          "label": "Customize networking",
-          "link": {"type": "doc", "id": "networking"},
-          "items": [
-            "networking-vlans",
-            "wifi"
-          ]
-        },
         "ntp",
         "rancher-vmware",
         "removable-device-cloudconfig",
@@ -165,6 +184,11 @@ const sidebars = {
           "type": "doc",
           "label": "Reset",
           "id": "troubleshooting-reset",
+        },
+        {
+          "type": "doc",
+          "label": "Declarative Networking",
+          "id": "troubleshooting-network",
         }
       ],
     },
